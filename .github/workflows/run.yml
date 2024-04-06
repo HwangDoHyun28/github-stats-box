@@ -1,31 +1,26 @@
 name: Update GitHub Stats Gist
 on:
-    workflow_dispatch:
-    schedule:
-        - cron: '0 */12 * * *'
-    push:
-        branches: master
+  workflow_dispatch:
+  schedule:
+    - cron: '0 */12 * * *'
+  push:
+    branches: master
+
 jobs:
-    run:
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/setup-node@master
-              with:
-                  node-version: 16
-            # If you edit the .js files and want to run them in your GitHub Action, you need to:
-            # - uncomment the 2 following lines
-            # - replace "npx github-stats-box@1" with "npm start"
-            # N.B: Your action will not receive future updates if you do so
-
-            # - uses: actions/checkout@master
-            # - run: npm ci
-            - run: 
-            npm install -g github-stats-box
-            npx github-stats-box@1
-              env:
-                  GH_TOKEN: ${{ secrets.GH_TOKEN }} # Do not edit, defined in secrets
-
-                  # Edit the following environment variables
-                  GIST_ID: ${{ secrets.GIST_ID }} # The ID portion from your gist url
-                  ALL_COMMITS: true # If `true` it will count all commits, if `false` it will count your last year commits
-                  K_FORMAT: false # If `true`, large numbers will be formatted with a "k", for example "1.5k"
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+          
+      - name: Install dependencies and update GitHub Stats
+        run: |
+          npm install -g github-stats-box
+          npx github-stats-box@1
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }} # Do not edit, defined in secrets
+          GIST_ID: ${{ secrets.GIST_ID }} # The ID portion from your gist url
+          ALL_COMMITS: true # If `true` it will count all commits, if `false` it will count your last year commits
+          K_FORMAT: false # If `true`, large numbers will be formatted with a "k", for example "1.5k"
