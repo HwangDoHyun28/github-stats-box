@@ -13,8 +13,8 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '20'
-          
+          node-version: '20.x'  # Node.js의 최신 버전을 사용하도록 수정
+
       - name: Install dependencies and update GitHub Stats
         run: |
           npm install -g github-stats-box
